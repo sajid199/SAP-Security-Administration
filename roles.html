@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PFCG Role Maintenance - SAP Security Learning</title>
+  <style>
+    :root {
+      --primary: #2a5885;
+      --secondary: #3a6ea5;
+      --accent: #d32f2f;
+      --light: #f5f5f5;
+      --dark: #333;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+      color: var(--dark);
+    }
+    
+    .container {
+      display: contents;
+    }
+    
+    .sidebar {
+      background-color: var(--primary);
+      color: white;
+      padding: 20px;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+    }
+    
+    .sidebar h3 {
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 10px;
+    }
+    
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .sidebar li {
+      margin-bottom: 10px;
+    }
+    
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      display: block;
+      padding: 8px 5px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    
+    .sidebar a:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+    
+    .content {
+      padding: 30px;
+      background-color: #f9f9f9;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    /* Your existing PFCG styles */
+    h1 {
+      color: var(--primary);
+      border-bottom: 2px solid #e1e1e1;
+      padding-bottom: 10px;
+    }
+    
+    h2 {
+      color: var(--secondary);
+      margin-top: 25px;
+    }
+    
+    h3 {
+      color: #4a7eb5;
+    }
+    
+    .purpose {
+      background-color: #f0f7ff;
+      padding: 15px;
+      border-left: 4px solid var(--secondary);
+      margin: 20px 0;
+    }
+    
+    .tab {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 15px 0;
+      border-left: 4px solid #4a7eb5;
+    }
+    
+    .tab h3 {
+      margin-top: 0;
+    }
+    
+    .tab-important {
+      border-left: 4px solid var(--accent);
+      background-color: #ffebee;
+    }
+    
+    .comparison {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    
+    .comparison th {
+      background-color: var(--secondary);
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .comparison td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .comparison tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    
+    .trick {
+      background-color: #e8f5e9;
+      padding: 15px;
+      border-left: 4px solid #2e7d32;
+      font-style: italic;
+      margin: 20px 0;
+    }
+    
+    .memory-trick {
+      background-color: #fff3e0;
+      padding: 15px;
+      border-left: 4px solid #fb8c00;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+    
+    .reminders {
+      background-color: #e3f2fd;
+      padding: 15px;
+      border-left: 4px solid #1976d2;
+      margin: 20px 0;
+    }
+    
+    .icon {
+      font-size: 1.2em;
+      margin-right: 5px;
+    }
+    
+    .warning {
+      color: var(--accent);
+      font-weight: bold;
+    }
+    
+    .success {
+      color: #2e7d32;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="sidebar" id="sidebar"></nav>
+
+    
+    <main class="content" id="mainContent">
+      <h1><span class="icon">🔐</span> SAP Role Maintenance (PFCG)</h1>
+      
+      <div class="purpose">
+        <h2>📌 Purpose</h2>
+        <p>PFCG is used to create, change, and assign roles that control access and navigation in SAP.</p>
+      </div>
+      
+      <h2>🧩 Tabs in PFCG Role</h2>
+      
+      <div class="tab">
+        <h3>1. Description Tab</h3>
+        <ul>
+          <li>Used to define the role name and description.</li>
+          <li>Optional: Target system in CUA environment.</li>
+        </ul>
+      </div>
+      
+      <div class="tab">
+        <h3>2. Menu Tab</h3>
+        <ul>
+          <li>Defines navigation structure for end-users.</li>
+          <li>Contains:
+            <ul>
+              <li>Transaction codes (T-Codes)</li>
+              <li>Reports</li>
+              <li>Web links</li>
+            </ul>
+          </li>
+          <li class="warning">Note: Adding a T-Code here does NOT grant access until authorized.</li>
+        </ul>
+      </div>
+      
+      <div class="tab">
+        <h3>3. Workflow Tab</h3>
+        <ul>
+          <li>Used to link roles with workflows.</li>
+          <li>Enables task routing via SAP Business Workplace (SBWP).</li>
+        </ul>
+      </div>
+      
+      <div class="tab tab-important">
+        <h3>4. Authorizations Tab</h3>
+        <ul>
+          <li>The most important tab – controls what a user can do.</li>
+          <li>Contains:
+            <ul>
+              <li>Authorization objects (like S_TCODE)</li>
+              <li>Activities (read, create, delete, etc.)</li>
+            </ul>
+          </li>
+          <li class="success">After maintaining, you must generate the profile.</li>
+        </ul>
+      </div>
+      
+      <div class="tab">
+        <h3>5. User Tab</h3>
+        <ul>
+          <li>Assign users to the role.</li>
+          <li>Set start and end date for validity.</li>
+        </ul>
+      </div>
+      
+      <div class="tab">
+        <h3>6. MiniApps Tab</h3>
+        <ul>
+          <li>Used in SAP Enterprise Portal to assign small application tiles (MiniApps).</li>
+          <li>Not commonly used in standard GUI roles.</li>
+        </ul>
+      </div>
+      
+      <div class="tab">
+        <h3>7. Personalization Tab</h3>
+        <ul>
+          <li>Allows setting user-specific parameters.</li>
+          <li>Example: Date format, default printer, etc.</li>
+        </ul>
+      </div>
+      
+      <h2>🆚 Menu vs Authorizations – Difference</h2>
+      
+      <table class="comparison">
+        <tr>
+          <th>Feature</th>
+          <th>Menu Tab</th>
+          <th>Authorizations Tab</th>
+        </tr>
+        <tr>
+          <td><strong>Purpose</strong></td>
+          <td>User navigation/menu view</td>
+          <td>Grant actual system access</td>
+        </tr>
+        <tr>
+          <td><strong>Content</strong></td>
+          <td>T-Codes, links, reports</td>
+          <td>Authorization objects (e.g., S_TCODE)</td>
+        </tr>
+        <tr>
+          <td><strong>Affects</strong></td>
+          <td>What user sees in SAP GUI</td>
+          <td>What user can do in SAP system</td>
+        </tr>
+        <tr>
+          <td><strong>Execution Rights?</strong></td>
+          <td>No – just shows the item</td>
+          <td>Yes – must allow access to execute actions</td>
+        </tr>
+      </table>
+      
+      <div class="trick">
+        <p><span class="icon">🔑</span> <strong>Trick to remember:</strong> "Menu shows it, Authorization allows it."</p>
+      </div>
+      
+      <div class="memory-trick">
+        <h3>🧠 Memory Trick for Tabs</h3>
+        <p>"Don't Make Work Authorization Unless Mini Personalization"</p>
+        <p>➡️ <strong>D-M-W-A-U-M-P</strong></p>
+        <ul>
+          <li><strong>D</strong>escription</li>
+          <li><strong>M</strong>enu</li>
+          <li><strong>W</strong>orkflow</li>
+          <li><strong>A</strong>uthorizations</li>
+          <li><strong>U</strong>ser</li>
+          <li><strong>M</strong>iniApps</li>
+          <li><strong>P</strong>ersonalization</li>
+        </ul>
+      </div>
+      
+      <div class="reminders">
+        <h3>💡 Key Reminders</h3>
+        <ul>
+          <li>Always <strong>generate the profile</strong> after editing authorizations.</li>
+          <li>Assign users via the <strong>User tab</strong> (not just authorization objects).</li>
+          <li>Test roles with <strong>SU53</strong> (auth errors) and <strong>SUIM</strong> (role analysis).</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+    <script src="app.js"></script>
+</body>
+</html>
